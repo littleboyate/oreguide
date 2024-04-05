@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Showing HCA logo..."
-wget -O loader.sh https://raw.githubusercontent.com/deztonz/oreguide/main/loader.sh && chmod +x loader.sh && ./loader.sh
+wget -O loader.sh https://raw.githubusercontent.com/deztonz/oreguide/main/loader.sh && chmod +x loader.sh && loader.sh
 curl -s https://raw.githubusercontent.com/deztonz/oreguide/main/header.sh | bash
 sleep 2
 
