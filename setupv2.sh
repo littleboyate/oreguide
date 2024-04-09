@@ -8,9 +8,13 @@ source ~/.profile
 cargo install ore-cli
 source ~/.profile
 echo '#!/bin/bash' > master_miner.sh
-read -p "How many miner do you want to generate? " NUM
+
+read -p "How many wallet do you want to generate? " NUMWAL
+NUM=1
+
 solana-keygen new -o id.json
 solana address -k id.json
+
 
 read -p "Please enter the RPC URL: " rpc_url
 
@@ -48,6 +52,28 @@ tee add_miner.sh > /dev/null <<EOF
   echo "sh mine\$i.sh >> miner.log 2>&1 & echo \\\$! >> miner.pid" >> master_miner.sh
 EOF
 chmod ug+x add_miner.sh
+
+tee add_wallet.sh > /dev/null <<EOF
+  highest=0
+  for file in mine*.sh; do
+    num=\${file//[^0-9]/}
+    if [ -n "\$num" ] && [ "\$num" -gt "\$highest" ]; then
+      highest=\$num
+    fi
+  done
+  i=\$((highest+1))
+  solana-keygen new -o id\$i.json
+  solana address -k id\$i.json
+  echo '#!/bin/bash' > mine\$i.sh
+  echo "while true; do" >> mine\$i.sh
+  echo "  echo "Mining \$i starting..."" >> mine\$i.sh
+  echo "  ore --rpc "$rpc_url" --keypair ${INSTALLATION_DIR}/id\$i.json --priority-fee ${gas_fee} mine --threads 15" >> mine\$i.sh
+  echo "  echo "Mining \$i finished."" >> mine\$i.sh
+  echo "done" >> mine\$i.sh
+  chmod ug+x mine\$i.sh
+  echo "sh mine\$i.sh >> miner.log 2>&1 & echo \\\$! >> miner.pid" >> master_miner.sh
+EOF
+chmod ug+x add_wallet.sh
 
 tee start_miner.sh > /dev/null <<EOF
   sh master_miner.sh
