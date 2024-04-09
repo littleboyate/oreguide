@@ -1,6 +1,7 @@
 #!/bin/bash
 INSTALLATION_DIR=$(dirname "$(realpath "$0")")
 sudo apt-get install -y build-essential gcc
+sudo apt install screen
 curl https://sh.rustup.rs -sSf | sh
 sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
 source ~/.profile
