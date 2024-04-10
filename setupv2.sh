@@ -7,6 +7,7 @@ sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
 source ~/.profile
 . "$HOME/.cargo/env" 
 cargo install ore-cli
+export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 source ~/.profile
 echo '#!/bin/bash' > master_miner.sh
 
