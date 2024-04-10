@@ -122,6 +122,12 @@ tee claim_rewards.sh > /dev/null <<EOF
 EOF
 chmod ug+x claim_rewards.sh
 
+tee setup_log.sh > /dev/null <<EOF
+  screen -S log_mine
+  sudo tail -f miner.log
+EOF
+chmod ug+x setup_log.sh
+
 sudo tee /etc/logrotate.d/ore > /dev/null <<EOF
   $INSTALLATION_DIR/miner.log {
     rotate 5
