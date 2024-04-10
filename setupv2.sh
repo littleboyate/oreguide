@@ -5,11 +5,11 @@ sudo apt install screen
 curl https://sh.rustup.rs -sSf | sh
 sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
 source ~/.profile
+. "$HOME/.cargo/env" 
 cargo install ore-cli
 source ~/.profile
 echo '#!/bin/bash' > master_miner.sh
 
-read -p "How many wallet do you want to generate? " NUMWAL
 NUM=1
 
 solana-keygen new -o id.json
@@ -64,6 +64,11 @@ tee add_wallet.sh > /dev/null <<EOF
   i=\$((highest+1))
   solana-keygen new -o id\$i.json
   solana address -k id\$i.json
+
+  read -p "Please enter the RPC URL: " rpc_url
+
+  read -p "Please enter the gas fee: " gas_fee
+
   echo '#!/bin/bash' > mine\$i.sh
   echo "while true; do" >> mine\$i.sh
   echo "  echo "Mining \$i starting..."" >> mine\$i.sh
@@ -71,6 +76,8 @@ tee add_wallet.sh > /dev/null <<EOF
   echo "  echo "Mining \$i finished."" >> mine\$i.sh
   echo "done" >> mine\$i.sh
   chmod ug+x mine\$i.sh
+  echo "Address /root/id$i.json"
+  solana address -k /root/id$i.json
   echo "sh mine\$i.sh >> miner.log 2>&1 & echo \\\$! >> miner.pid" >> master_miner.sh
 EOF
 chmod ug+x add_wallet.sh
