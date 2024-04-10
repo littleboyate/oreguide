@@ -21,6 +21,8 @@ read -p "Please enter the RPC URL: " rpc_url
 
 read -p "Please enter the gas fee: " gas_fee
 
+. "$HOME/.cargo/env" 
+
 for ((i=1; i<=$NUM; i++))
 do
   tee mine$i.sh > /dev/null <<EOF
