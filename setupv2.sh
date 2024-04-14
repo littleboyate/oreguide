@@ -81,8 +81,8 @@ tee add_wallet.sh > /dev/null <<EOF
   echo "  echo "Mining \$i finished."" >> mine\$i.sh
   echo "done" >> mine\$i.sh
   chmod ug+x mine\$i.sh
-  echo "Address /root/id\$i.json"
-  solana address -k /root/id\$i.json
+  echo "Address ${INSTALLATION_DIR}/id\$i.json"
+  solana address -k ${INSTALLATION_DIR}/id\$i.json
   echo "sh mine\$i.sh >> miner.log 2>&1 & echo \\\$! >> miner.pid" >> master_miner.sh
 
 EOF
