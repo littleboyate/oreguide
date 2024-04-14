@@ -2,6 +2,8 @@
 INSTALLATION_DIR=$(dirname "$(realpath "$0")")
 sudo apt-get install -y build-essential gcc
 sudo apt install screen
+sudo apt-get install bc
+sudo apt-get install jq
 curl https://sh.rustup.rs -sSf | sh
 sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
 source ~/.profile
@@ -75,13 +77,14 @@ tee add_wallet.sh > /dev/null <<EOF
   echo '#!/bin/bash' > mine\$i.sh
   echo "while true; do" >> mine\$i.sh
   echo "  echo "Mining \$i starting..."" >> mine\$i.sh
-  echo "  ore --rpc "$rpc_url" --keypair ${INSTALLATION_DIR}/id\$i.json --priority-fee ${gas_fee} mine --threads 15" >> mine\$i.sh
+  echo "  ore --rpc \$rpc_url --keypair ${INSTALLATION_DIR}/id\$i.json --priority-fee ${gas_fee} mine --threads 15" >> mine\$i.sh
   echo "  echo "Mining \$i finished."" >> mine\$i.sh
   echo "done" >> mine\$i.sh
   chmod ug+x mine\$i.sh
-  echo "Address /root/id$i.json"
-  solana address -k /root/id$i.json
+  echo "Address /root/id\$i.json"
+  solana address -k /root/id\$i.json
   echo "sh mine\$i.sh >> miner.log 2>&1 & echo \\\$! >> miner.pid" >> master_miner.sh
+
 EOF
 chmod ug+x add_wallet.sh
 
@@ -108,6 +111,7 @@ chmod ug+x list_addresses.sh
 tee check_rewards.sh > /dev/null <<EOF
   for key in id*.json; do
     echo "Rewards \$key: "
+    solana address -k /root/\$key
     ore --keypair ${INSTALLATION_DIR}/\$key rewards
   done
 EOF
