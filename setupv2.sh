@@ -111,7 +111,7 @@ chmod ug+x list_addresses.sh
 tee check_rewards.sh > /dev/null <<EOF
   for key in id*.json; do
     echo "Rewards \$key: "
-    solana address -k /root/\$key
+    solana address -k ${INSTALLATION_DIR}/\$key
     ore --keypair ${INSTALLATION_DIR}/\$key rewards
   done
 EOF
