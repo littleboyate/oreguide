@@ -18,7 +18,7 @@ export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 
 source ~/.profile
 
-cargo install ore-cli
+#cargo install ore-cli
 
 source ~/.profile
 echo '#!/bin/bash' > master_miner.sh
