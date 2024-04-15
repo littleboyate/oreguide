@@ -7,15 +7,18 @@ sudo apt install build-essential -y
 sudo apt install screen -y
 sudo apt-get install bc -y
 sudo apt-get install jq -y
+
 curl https://sh.rustup.rs -sSf | sh
 
-sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
-export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
-source ~/.profile
 . "$HOME/.cargo/env" 
 
+sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
+
+export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
+
+source ~/.profile
+
 cargo install ore-cli
-. "$HOME/.cargo/env" 
 
 source ~/.profile
 echo '#!/bin/bash' > master_miner.sh
@@ -57,7 +60,7 @@ tee add_miner.sh > /dev/null <<EOF
   echo '#!/bin/bash' > mine\$i.sh
   echo "while true; do" >> mine\$i.sh
   echo "  echo "Mining \$i starting..."" >> mine\$i.sh
-  echo "  ore --rpc "$rpc_url" --keypair ${INSTALLATION_DIR}/id.json --priority-fee ${gas_fee} mine --threads 15" >> mine\$i.sh
+  echo "  ore --rpc "$rpc_url" --keypair ${INSTALLATION_DIR}/id.json --priority-fee \${gas_fee} mine --threads 15" >> mine\$i.sh
   echo "  echo "Mining \$i finished."" >> mine\$i.sh
   echo "done" >> mine\$i.sh
   chmod ug+x mine\$i.sh
@@ -84,7 +87,7 @@ tee add_wallet.sh > /dev/null <<EOF
   echo '#!/bin/bash' > mine\$i.sh
   echo "while true; do" >> mine\$i.sh
   echo "  echo "Mining \$i starting..."" >> mine\$i.sh
-  echo "  ore --rpc \$rpc_url --keypair ${INSTALLATION_DIR}/id\$i.json --priority-fee ${gas_fee} mine --threads 15" >> mine\$i.sh
+  echo "  ore --rpc \$rpc_url --keypair ${INSTALLATION_DIR}/id\$i.json --priority-fee \${gas_fee} mine --threads 15" >> mine\$i.sh
   echo "  echo "Mining \$i finished."" >> mine\$i.sh
   echo "done" >> mine\$i.sh
   chmod ug+x mine\$i.sh
