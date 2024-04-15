@@ -1,11 +1,13 @@
 #!/bin/bash
 INSTALLATION_DIR=$(dirname "$(realpath "$0")")
 sudo apt-get install -y build-essential gcc
-sudo apt install screen
-sudo apt-get install bc
-sudo apt-get install jq
+sudo apt install screen -y
+sudo apt-get install bc -y
+sudo apt-get install jq -y
 curl https://sh.rustup.rs -sSf | sh
+
 sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
+
 source ~/.profile
 . "$HOME/.cargo/env" 
 cargo install ore-cli
