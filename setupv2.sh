@@ -1,7 +1,9 @@
 #!/bin/bash
 INSTALLATION_DIR=$(dirname "$(realpath "$0")")
 sudo apt update -y
-sudo apt-get install -y build-essential gapt update;cc
+sudo apt-get update
+sudo apt-get install -y build-essential gapt update
+sudo apt install build-essential -y
 sudo apt install screen -y
 sudo apt-get install bc -y
 sudo apt-get install jq -y
